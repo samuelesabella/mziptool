@@ -8,9 +8,9 @@ function mziptool_install() {
                  | |                     
                  |_|
   
-  The tool has been installed, thanks you for downloading it...                       
+The tool has been installed, thanks you for downloading it...                       
   "
-  if grep -qe "MZIPTOOL" ~/.bash_profile; then
+  if grep -qe "mziptool" ~/.bash_profile; then
     echo "Installation found, nothing to do"
   else
     echo "$thankyou"
@@ -18,19 +18,23 @@ function mziptool_install() {
     local tokens=( $startline )
     local fromline=${tokens[1]}
     local mziptoolcode=`tail -n +${fromline} mziptool.sh`
-    echo -e "\n $mziptoolcode \n" >> ~/.bash_profile 
+    echo -e "\n $mziptoolcode \n" >> ~/.mziptool.sh
+    echo -e "source .mziptool.sh" >> ~/.bash_profile
   fi
 }
 
 # >>>>> MZIPTOOL <<<<< #
+function mziptool_help() { 
+  echo "Description: mziptool aims to offer a simple zip utility" 
+  echo "avoiding the annoying .DS_Store and __MACOSX  directory"
+  echo "Usage: mziptool src out.zip \nArguments:"
+  echo "  -h, --help:    display options "
+}
+
 function mziptool() {
-  local help_string="Usage: ziptool src out.zip
-  Arguments:
-    -h, --help:    display options
-  " 
   # Argument parsing
   if [ -z "$1" ] || [[ "$1" == *"-h"* ]] || [[ "$1" == *"--help"* ]]; then
-    echo "${help_string}"
+    mziptool_help
     return 1
   fi
   local src=$1
