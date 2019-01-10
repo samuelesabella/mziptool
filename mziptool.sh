@@ -44,6 +44,10 @@ function mziptool() {
     src="${src::${#src}-1}"
   fi
   local outfile="${src}.zip"
+  if [ -n "$2" ]; then
+    outfile="$2"
+  fi
+  
   # Checking if the file does exist
   local dir_flag=""
   if [ ! -e "$src" ]; then
